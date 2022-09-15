@@ -1,3 +1,4 @@
+import com.esiljak.models.RomanNumeral;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -29,11 +30,11 @@ public class RomanNumeralsTests {
 
     @Test
     void numberParseTest(){
-        assertEquals(101, new RomanNumeral("CI"));
-        assertEquals(24, new RomanNumeral("XXIV"));
-        assertEquals(49, new RomanNumeral("XLIX"));
-        assertEquals(508, new RomanNumeral("DXIII"));
-        assertEquals(999, new RomanNumeral("CMXCIX"));
-        assertEquals(1101, new RomanNumeral("MCI"));
+        assertEquals(101, new RomanNumeral("CI").getValue());
+        assertEquals(24, new RomanNumeral("XXIV").getValue());
+        assertEquals(49, new RomanNumeral("XLIX").getValue());
+        assertEquals(508, new RomanNumeral("DXIII").getValue());
+        assertEquals(999, new RomanNumeral("CMXCIX").getValue());
+        assertEquals(1101, new RomanNumeral("MCI").getValue());
     }
 }
