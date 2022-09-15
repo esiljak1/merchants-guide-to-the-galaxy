@@ -1,7 +1,9 @@
+import com.esiljak.exceptions.IllegalRomanNumeralException;
 import com.esiljak.models.RomanNumeral;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class RomanNumeralsTests {
     @Test
@@ -36,5 +38,28 @@ public class RomanNumeralsTests {
         assertEquals(508, new RomanNumeral("DVIII").getValue());
         assertEquals(999, new RomanNumeral("CMXCIX").getValue());
         assertEquals(1101, new RomanNumeral("MCI").getValue());
+    }
+
+    @Test
+    void wrongFormatsTest(){
+        assertThrows(IllegalRomanNumeralException.class, () -> {
+           new RomanNumeral("IC");
+        }, "I as a prefix only before V and X");
+
+        assertThrows(IllegalRomanNumeralException.class, () -> {
+            new RomanNumeral("XCX");
+        }, "If you have a subtractive number after it can come the value smaller than the prefix");
+
+        assertThrows(IllegalRomanNumeralException.class, () -> {
+           new RomanNumeral("MMXXT");
+        }, "Illegal character T");
+
+        assertThrows(IllegalRomanNumeralException.class, () -> {
+           new RomanNumeral("XXXXI");
+        }, "Illegal number of repeated characters");
+
+        assertThrows(IllegalRomanNumeralException.class, () -> {
+           new RomanNumeral("LXL");
+        }, "Illegal number of repeated characters");
     }
 }

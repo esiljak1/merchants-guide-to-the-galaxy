@@ -8,13 +8,13 @@ public class RomanNumeral {
     private int value = 0;
 
     public RomanNumeral(String numeral) throws IllegalRomanNumeralException {
-        this.numeral = numeral;
         value = Parser.parseRomanNumeral(numeral);
+        this.numeral = numeral;
     }
 
     public void setNumeral(String numeral) throws IllegalRomanNumeralException {
-        this.numeral = numeral;
         value = Parser.parseRomanNumeral(numeral);
+        this.numeral = numeral;
     }
 
     public int getValue() {
