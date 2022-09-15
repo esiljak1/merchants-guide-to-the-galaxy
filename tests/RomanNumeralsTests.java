@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RomanNumeralsTests {
     @Test
-    void basicDigitTest(){
+    void basicDigitTest() throws Exception{
         RomanNumeral romanNumeral = new RomanNumeral("I");
         assertEquals(1, romanNumeral.getValue(), "I should have the value 1");
 
@@ -29,11 +29,11 @@ public class RomanNumeralsTests {
     }
 
     @Test
-    void numberParseTest(){
+    void numberParseTest() throws Exception {
         assertEquals(101, new RomanNumeral("CI").getValue());
         assertEquals(24, new RomanNumeral("XXIV").getValue());
         assertEquals(49, new RomanNumeral("XLIX").getValue());
-        assertEquals(508, new RomanNumeral("DXIII").getValue());
+        assertEquals(508, new RomanNumeral("DVIII").getValue());
         assertEquals(999, new RomanNumeral("CMXCIX").getValue());
         assertEquals(1101, new RomanNumeral("MCI").getValue());
     }
