@@ -1,28 +1,39 @@
-import com.esiljak.models.RomanNumerals;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RomanNumeralsTests {
     @Test
-    void basicValueTest(){
-        assertEquals(RomanNumerals.I.getValue(), 1, "I should have a value of 1");
-        assertEquals(RomanNumerals.V.getValue(), 5, "V should have a value of 5");
-        assertEquals(RomanNumerals.X.getValue(), 10, "X should have a value of 10");
-        assertEquals(RomanNumerals.L.getValue(), 50, "L should have a value of 50");
-        assertEquals(RomanNumerals.C.getValue(), 100, "C should have a value of 100");
-        assertEquals(RomanNumerals.D.getValue(), 500, "D should have a value of 500");
-        assertEquals(RomanNumerals.M.getValue(), 1000, "M should have a value of 1000");
+    void basicDigitTest(){
+        RomanNumeral romanNumeral = new RomanNumeral("I");
+        assertEquals(1, romanNumeral.getValue(), "I should have the value 1");
+
+        romanNumeral.setNumeral("V");
+        assertEquals(5, romanNumeral.getValue(), "V should have the value 5");
+
+        romanNumeral.setNumeral("X");
+        assertEquals(10, romanNumeral.getValue(), "X should have the value 10");
+
+        romanNumeral.setNumeral("L");
+        assertEquals(50, romanNumeral.getValue(), "L should have the value 50");
+
+        romanNumeral.setNumeral("C");
+        assertEquals(100, romanNumeral.getValue(), "C should have the value 100");
+
+        romanNumeral.setNumeral("D");
+        assertEquals(500, romanNumeral.getValue(), "D should have the value 500");
+
+        romanNumeral.setNumeral("M");
+        assertEquals(1000, romanNumeral.getValue(), "M should have the value 1000");
     }
 
     @Test
-    void basicToStringTest(){
-        assertEquals(RomanNumerals.I.toString(), "I");
-        assertEquals(RomanNumerals.V.toString(), "V");
-        assertEquals(RomanNumerals.X.toString(), "X");
-        assertEquals(RomanNumerals.L.toString(), "L");
-        assertEquals(RomanNumerals.C.toString(), "C");
-        assertEquals(RomanNumerals.D.toString(), "D");
-        assertEquals(RomanNumerals.M.toString(), "M");
+    void numberParseTest(){
+        assertEquals(101, new RomanNumeral("CI"));
+        assertEquals(24, new RomanNumeral("XXIV"));
+        assertEquals(49, new RomanNumeral("XLIX"));
+        assertEquals(508, new RomanNumeral("DXIII"));
+        assertEquals(999, new RomanNumeral("CMXCIX"));
+        assertEquals(1101, new RomanNumeral("MCI"));
     }
 }
