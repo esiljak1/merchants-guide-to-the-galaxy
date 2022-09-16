@@ -57,6 +57,27 @@ public class SellingItemTests {
     }
 
     @Test
+    void emptyNameTest(){
+        assertThrows(IllegalItemNameException.class, () -> {
+            new SellingItem("", PRICE);
+        }, "Name cannot be empty - constructor");
+
+        assertThrows(IllegalItemNameException.class, () -> {
+           SellingItem item = new SellingItem(ITEM_NAME, PRICE);
+           item.setName("   ");
+        }, "Name cannot be empty - setter");
+
+        assertThrows(IllegalItemNameException.class, () -> {
+            new SellingItem(null, PRICE);
+        }, "Name cannot be null - constructor");
+
+        assertThrows(IllegalItemNameException.class, () -> {
+            SellingItem item = new SellingItem(ITEM_NAME, PRICE);
+            item.setName(null);
+        }, "Name cannot be null - setter");
+    }
+
+    @Test
     void nonPositiveQuantityTest(){
         assertThrows(IllegalQuantityException.class, () -> {
            new SellingItem(ITEM_NAME, PRICE, 0);

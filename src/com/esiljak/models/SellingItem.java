@@ -17,10 +17,8 @@ public class SellingItem {
             throw new IllegalQuantityException("Quantity has to be positive");
     }
 
-    public SellingItem(String name, float price) throws IllegalPriceException {
-        checkPriceValidity(price);
-        this.name = name;
-        this.price = price;
+    public SellingItem(String name, float price) throws IllegalPriceException, IllegalQuantityException {
+        this(name, price, 1);
     }
 
     public SellingItem(String name, float price, int quantity) throws IllegalPriceException, IllegalQuantityException {
