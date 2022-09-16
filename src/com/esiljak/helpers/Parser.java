@@ -29,11 +29,12 @@ public class Parser {
         return digits.get(prefix) > digits.get(suffix);
     }
 
-    private static boolean isValidDigit(String digit){
-        return digits.containsKey(digit);
+    private static void checkValidDigit(String digit) throws IllegalRomanNumeralException {
+        if(!digits.containsKey(digit))
+            throw new IllegalRomanNumeralException(ILLEGAL_CHARACTER);
     }
 
-    private static boolean isNumberOfCharactersValid(String romanNumber){
+    private static void checkNumberOfCharactersValid(String romanNumber) throws IllegalRomanNumeralException {
         long numberOfI = romanNumber.chars().filter(ch -> ch == 'I').count();
         long numberOfV = romanNumber.chars().filter(ch -> ch == 'V').count();
         long numberOfX = romanNumber.chars().filter(ch -> ch == 'X').count();
@@ -42,14 +43,34 @@ public class Parser {
         long numberOfD = romanNumber.chars().filter(ch -> ch == 'D').count();
         long numberOfM = romanNumber.chars().filter(ch -> ch == 'M').count();
 
-        return numberOfI <= 4 && numberOfX <= 4 && numberOfC <= 4 && numberOfM <= 4
-                && numberOfV <= 1 && numberOfL <= 1 && numberOfD <= 1;
+        if(numberOfI > 4 || numberOfX > 4 || numberOfC > 4 || numberOfM > 4
+                || numberOfV > 1 || numberOfL > 1 || numberOfD > 1)
+            throw new IllegalRomanNumeralException(ILLEGAL_OCCURRENCES);
+    }
+
+    private static void checkValiditySameCharacters(boolean isPrefix) throws IllegalRomanNumeralException {
+        if(isPrefix)
+            throw new IllegalRomanNumeralException(ILLEGAL_SEQUENCE);
+    }
+
+    private static void checkValiditySubtractiveCharacters(boolean isPrefix, int numberOfRepeatedCharacters,
+                                                           String current, String next) throws IllegalRomanNumeralException {
+        if(isPrefix || numberOfRepeatedCharacters != 1 || !isValidPrefixDigit(current, next))
+            throw new IllegalRomanNumeralException(ILLEGAL_SEQUENCE);
+    }
+
+    private static void checkValidityAdditiveCharacters(boolean isPrefix, String prefixDigit, String next) throws IllegalRomanNumeralException {
+        if(isPrefix && !isValidSuffixDigit(prefixDigit, next))
+            throw new IllegalRomanNumeralException(ILLEGAL_SEQUENCE);
+    }
+
+    private static void checkRepeatedCharacters(int numberOfRepeatedCharacters) throws IllegalRomanNumeralException {
+        if(numberOfRepeatedCharacters > 3)
+            throw new IllegalRomanNumeralException(ILLEGAL_OCCURRENCES);
     }
 
     private static void checkValidityOfRomanNumber(String romanNumber) throws IllegalRomanNumeralException {
-        if(!isNumberOfCharactersValid(romanNumber)){
-            throw new IllegalRomanNumeralException(ILLEGAL_OCCURRENCES);
-        }
+        checkNumberOfCharactersValid(romanNumber);
         int numberOfRepeatedCharacters = 1;
         boolean isPrefix = false;
         String prefixDigit = "";
@@ -57,32 +78,22 @@ public class Parser {
         for(int i = 0; i < romanNumber.length() - 1; i++){
             String current = romanNumber.charAt(i) + "";
             String next = romanNumber.charAt(i + 1) + "";
-            if(!isValidDigit(current) || !isValidDigit(next)){
-                throw new IllegalRomanNumeralException(ILLEGAL_CHARACTER);
-            }
+            checkValidDigit(current);
+            checkValidDigit(next);
 
             if(current.equals(next)){
-                if(isPrefix)
-                    throw new IllegalRomanNumeralException(ILLEGAL_SEQUENCE);
-
+                checkValiditySameCharacters(isPrefix);
                 numberOfRepeatedCharacters++;
             }else if(digits.get(current) < digits.get(next)){
-                if(isPrefix || numberOfRepeatedCharacters != 1 || !isValidPrefixDigit(current, next))
-                    throw new IllegalRomanNumeralException(ILLEGAL_SEQUENCE);
-
+                checkValiditySubtractiveCharacters(isPrefix, numberOfRepeatedCharacters, current, next);
                 isPrefix = true;
                 prefixDigit = current;
             }else{
-                if(isPrefix && !isValidSuffixDigit(prefixDigit, next))
-                    throw new IllegalRomanNumeralException(ILLEGAL_SEQUENCE);
-
+                checkValidityAdditiveCharacters(isPrefix, prefixDigit, next);
                 isPrefix = false;
                 numberOfRepeatedCharacters = 1;
             }
-
-            if(numberOfRepeatedCharacters > 3){
-                throw new IllegalRomanNumeralException(ILLEGAL_OCCURRENCES);
-            }
+            checkRepeatedCharacters(numberOfRepeatedCharacters);
         }
     }
 

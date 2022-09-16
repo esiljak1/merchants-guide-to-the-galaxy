@@ -5,7 +5,7 @@ import com.esiljak.helpers.Parser;
 
 public class RomanNumeral {
     private String numeral;
-    private int value = 0;
+    private int value;
 
     public RomanNumeral(String numeral) throws IllegalRomanNumeralException {
         value = Parser.parseRomanNumeral(numeral);
