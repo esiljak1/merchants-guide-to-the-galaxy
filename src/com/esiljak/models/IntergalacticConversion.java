@@ -17,9 +17,9 @@ public class IntergalacticConversion {
     private Map<String, String> entries;
 
     private void validateNewEntry(String key, String value) throws DuplicatedConversionKeyException, DuplicatedConversionValueException, IllegalRomanNumeralException {
-        if (entries.containsKey(key))
+        if (entries != null && entries.containsKey(key))
             throw new DuplicatedConversionKeyException(DUPLICATED_KEY);
-        if (entries.containsValue(value))
+        if (entries != null && entries.containsValue(value))
             throw new DuplicatedConversionValueException(DUPLICATED_VALUE);
 
         Parser.checkValidDigit(value);
@@ -30,11 +30,19 @@ public class IntergalacticConversion {
             throw new IllegalKeyFormatException(ILLEGAL_FORMAT);
     }
 
+    private void validateEntriesMap(Map<String, String> map) throws DuplicatedConversionValueException, DuplicatedConversionKeyException, IllegalRomanNumeralException, IllegalKeyFormatException {
+        for(Map.Entry<String, String> entry : map.entrySet()){
+            validateNewEntry(entry.getKey(), entry.getValue());
+            validateKeyFormat(entry.getKey());
+        }
+    }
+
     public IntergalacticConversion() {
         entries = new HashMap<>();
     }
 
-    public IntergalacticConversion(Map<String, String> entries) {
+    public IntergalacticConversion(Map<String, String> entries) throws DuplicatedConversionValueException, IllegalKeyFormatException, DuplicatedConversionKeyException, IllegalRomanNumeralException {
+        validateEntriesMap(entries);
         this.entries = entries;
     }
 
@@ -42,7 +50,8 @@ public class IntergalacticConversion {
         return Collections.unmodifiableMap(entries);
     }
 
-    public void setEntries(Map<String, String> entries) {
+    public void setEntries(Map<String, String> entries) throws DuplicatedConversionValueException, IllegalKeyFormatException, DuplicatedConversionKeyException, IllegalRomanNumeralException {
+        validateEntriesMap(entries);
         this.entries = entries;
     }
 

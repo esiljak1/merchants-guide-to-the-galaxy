@@ -31,14 +31,14 @@ public class IntergalacticConversionTests {
     }
 
     @Test
-    void constructorWithParameterTest(){
+    void constructorWithParameterTest() throws Exception{
         conversion = new IntergalacticConversion(map);
 
         assertEquals(3, conversion.getEntries().size(), "Entries not properly set through constructor");
     }
 
     @Test
-    void setterTest(){
+    void setterTest() throws Exception{
         conversion.setEntries(map);
 
         assertEquals("I", conversion.getEntries().get("name1"), "Entries not properly set through setter");
