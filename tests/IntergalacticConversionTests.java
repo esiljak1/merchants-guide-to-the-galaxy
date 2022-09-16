@@ -1,5 +1,5 @@
-import com.esiljak.exceptions.DuplicatedConversionKey;
-import com.esiljak.exceptions.DuplicatedConversionValue;
+import com.esiljak.exceptions.DuplicatedConversionKeyException;
+import com.esiljak.exceptions.DuplicatedConversionValueException;
 import com.esiljak.exceptions.IllegalRomanNumeralException;
 import com.esiljak.models.IntergalacticConversion;
 import org.junit.jupiter.api.Test;
@@ -40,7 +40,7 @@ public class IntergalacticConversionTests {
     }
 
     @Test
-    void addingPairsTest(){
+    void addingPairsTest() throws DuplicatedConversionValueException, DuplicatedConversionKeyException, IllegalRomanNumeralException {
         IntergalacticConversion conversion = new IntergalacticConversion();
         conversion.addEntry("entry1", "X");
         conversion.addEntry("entry2", "I");
@@ -51,19 +51,13 @@ public class IntergalacticConversionTests {
 
     @Test
     void duplicatingKeysTest(){
-        assertThrows(DuplicatedConversionKey.class, () -> {
+        assertThrows(DuplicatedConversionKeyException.class, () -> {
             IntergalacticConversion conversion = new IntergalacticConversion();
             conversion.addEntry("entry1", "X");
             conversion.addEntry("entry1", "I");
         }, "Cannot have multiple entries with the same key");
 
-        assertThrows(DuplicatedConversionKey.class, () -> {
-            IntergalacticConversion conversion = new IntergalacticConversion();
-            conversion.addEntry("entry1", "X");
-            conversion.addEntry("Entry1", "I");
-        }, "Keys are case insensitive");
-
-        assertThrows(DuplicatedConversionValue.class, () -> {
+        assertThrows(DuplicatedConversionValueException.class, () -> {
             IntergalacticConversion conversion = new IntergalacticConversion();
             conversion.addEntry("entry1", "X");
             conversion.addEntry("entry2", "X");

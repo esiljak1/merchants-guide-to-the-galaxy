@@ -29,11 +29,6 @@ public class Parser {
         return digits.get(prefix) > digits.get(suffix);
     }
 
-    private static void checkValidDigit(String digit) throws IllegalRomanNumeralException {
-        if(!digits.containsKey(digit))
-            throw new IllegalRomanNumeralException(ILLEGAL_CHARACTER);
-    }
-
     private static void checkNumberOfCharactersValid(String romanNumber) throws IllegalRomanNumeralException {
         long numberOfI = romanNumber.chars().filter(ch -> ch == 'I').count();
         long numberOfV = romanNumber.chars().filter(ch -> ch == 'V').count();
@@ -95,6 +90,11 @@ public class Parser {
             }
             checkRepeatedCharacters(numberOfRepeatedCharacters);
         }
+    }
+
+    public static void checkValidDigit(String digit) throws IllegalRomanNumeralException {
+        if(digit.length() != 1 || !digits.containsKey(digit))
+            throw new IllegalRomanNumeralException(ILLEGAL_CHARACTER);
     }
 
     public static int parseRomanNumeral(String numeral) throws IllegalRomanNumeralException {
