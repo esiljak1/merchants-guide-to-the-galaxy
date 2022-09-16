@@ -1,5 +1,6 @@
 package com.esiljak.models;
 
+import com.esiljak.exceptions.IllegalItemNameException;
 import com.esiljak.exceptions.IllegalPriceException;
 import com.esiljak.exceptions.IllegalQuantityException;
 
@@ -17,11 +18,17 @@ public class SellingItem {
             throw new IllegalQuantityException("Quantity has to be positive");
     }
 
-    public SellingItem(String name, float price) throws IllegalPriceException, IllegalQuantityException {
+    private void checkNameValidity(String name) throws IllegalItemNameException {
+        if (name == null || name.trim().isEmpty())
+            throw new IllegalItemNameException("Item name cannot be empty");
+    }
+
+    public SellingItem(String name, float price) throws IllegalPriceException, IllegalQuantityException, IllegalItemNameException {
         this(name, price, 1);
     }
 
-    public SellingItem(String name, float price, int quantity) throws IllegalPriceException, IllegalQuantityException {
+    public SellingItem(String name, float price, int quantity) throws IllegalPriceException, IllegalQuantityException, IllegalItemNameException {
+        checkNameValidity(name);
         checkPriceValidity(price);
         checkQuantityValidity(quantity);
         this.name = name;
@@ -32,7 +39,8 @@ public class SellingItem {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(String name) throws IllegalItemNameException {
+        checkNameValidity(name);
         this.name = name;
     }
 

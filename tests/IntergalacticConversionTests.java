@@ -60,8 +60,8 @@ public class IntergalacticConversionTests {
         }, "Cannot have multiple entries with the same key");
 
         assertThrows(DuplicatedConversionValueException.class, () -> {
-            conversion.addEntry("entry1", "X");
             conversion.addEntry("entry2", "X");
+            conversion.addEntry("entry3", "X");
         }, "Cannot have multiple entries with the same value");
     }
 

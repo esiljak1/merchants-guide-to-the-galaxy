@@ -1,3 +1,4 @@
+import com.esiljak.exceptions.IllegalItemNameException;
 import com.esiljak.exceptions.IllegalPriceException;
 import com.esiljak.exceptions.IllegalQuantityException;
 import com.esiljak.models.SellingItem;
