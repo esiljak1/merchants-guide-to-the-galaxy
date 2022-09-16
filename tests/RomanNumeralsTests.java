@@ -62,4 +62,23 @@ public class RomanNumeralsTests {
            new RomanNumeral("LXL");
         }, "Illegal number of repeated characters");
     }
+
+    @Test
+    void illegalNumberOfOccurrencesTest(){
+        assertThrows(IllegalRomanNumeralException.class, () -> {
+           new RomanNumeral("IIII");
+        });
+
+        assertThrows(IllegalRomanNumeralException.class, () -> {
+            new RomanNumeral("XXIXX");
+        });
+
+        assertThrows(IllegalRomanNumeralException.class, () -> {
+           new RomanNumeral("LL");
+        });
+
+        assertThrows(IllegalRomanNumeralException.class, () -> {
+            new RomanNumeral("DCCD");
+        });
+    }
 }
