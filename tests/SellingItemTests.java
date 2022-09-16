@@ -13,7 +13,7 @@ public class SellingItemTests {
     private SellingItem item;
 
     @BeforeEach
-    void initialize(){
+    void initialize() throws Exception{
         item = new SellingItem(ITEM_NAME, PRICE, QUANTITY);
     }
 
@@ -24,14 +24,14 @@ public class SellingItemTests {
     }
 
     @Test
-    void noQuantityConstructorTest(){
+    void noQuantityConstructorTest() throws Exception{
         item = new SellingItem(ITEM_NAME, PRICE);
 
         assertEquals(PRICE, item.getPrice(), "Price not properly set through constructor");
     }
 
     @Test
-    void setterTest(){
+    void setterTest() throws Exception{
         item.setName(ITEM_NAME + "2");
         assertEquals(ITEM_NAME + "2", item.getName(), "Name not properly set through setter");
 
@@ -68,7 +68,7 @@ public class SellingItemTests {
     }
 
     @Test
-    void priceForQuantityTest(){
+    void priceForQuantityTest() throws Exception{
         item = new SellingItem(ITEM_NAME, PRICE);
 
         assertEquals(PRICE * QUANTITY, item.getPrice(QUANTITY), "Price not generated correctly for quantity");
