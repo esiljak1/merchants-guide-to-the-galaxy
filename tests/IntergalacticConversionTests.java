@@ -1,4 +1,7 @@
+import com.esiljak.exceptions.DuplicatedConversionKey;
+import com.esiljak.exceptions.DuplicatedConversionValue;
 import com.esiljak.exceptions.IllegalRomanNumeralException;
+import com.esiljak.models.IntergalacticConversion;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
@@ -8,7 +11,7 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class IntergalacticConversionTests {
-    private Map<String, String> map = Stream.of(new String[][]{
+    private final Map<String, String> map = Stream.of(new String[][]{
             { "name1", "I" },
             { "name2", "V" },
             { "name3", "X" }
