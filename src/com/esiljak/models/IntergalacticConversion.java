@@ -2,6 +2,7 @@ package com.esiljak.models;
 
 import com.esiljak.exceptions.DuplicatedConversionKeyException;
 import com.esiljak.exceptions.DuplicatedConversionValueException;
+import com.esiljak.exceptions.IllegalKeyFormatException;
 import com.esiljak.exceptions.IllegalRomanNumeralException;
 import com.esiljak.helpers.Parser;
 
@@ -12,7 +13,7 @@ import java.util.Map;
 public class IntergalacticConversion {
     private static final String DUPLICATED_KEY = "Cannot have multiple entries of the same key";
     private static final String DUPLICATED_VALUE = "Cannot have multiple entries of the same value";
-    private static final String ILLEGAL_NUMERAL = "Only valid options for value are I, V, X, L, C, D, M";
+    private static final String ILLEGAL_FORMAT = "Illegal key format detected";
     private Map<String, String> entries;
 
     private void validateNewEntry(String key, String value) throws DuplicatedConversionKeyException, DuplicatedConversionValueException, IllegalRomanNumeralException {
@@ -22,6 +23,11 @@ public class IntergalacticConversion {
             throw new DuplicatedConversionValueException(DUPLICATED_VALUE);
 
         Parser.checkValidDigit(value);
+    }
+
+    private void validateKeyFormat(String key) throws IllegalKeyFormatException {
+        if (key == null || key.trim().isEmpty() || key.split(" ").length != 1)
+            throw new IllegalKeyFormatException(ILLEGAL_FORMAT);
     }
 
     public IntergalacticConversion() {
@@ -40,8 +46,9 @@ public class IntergalacticConversion {
         this.entries = entries;
     }
 
-    public void addEntry(String key, String value) throws DuplicatedConversionValueException, DuplicatedConversionKeyException, IllegalRomanNumeralException {
+    public void addEntry(String key, String value) throws DuplicatedConversionValueException, DuplicatedConversionKeyException, IllegalRomanNumeralException, IllegalKeyFormatException {
         validateNewEntry(key, value);
+        validateKeyFormat(key);
         entries.put(key, value);
     }
 }

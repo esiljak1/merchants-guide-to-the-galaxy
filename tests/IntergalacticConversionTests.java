@@ -1,5 +1,6 @@
 import com.esiljak.exceptions.DuplicatedConversionKeyException;
 import com.esiljak.exceptions.DuplicatedConversionValueException;
+import com.esiljak.exceptions.IllegalKeyFormatException;
 import com.esiljak.exceptions.IllegalRomanNumeralException;
 import com.esiljak.models.IntergalacticConversion;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,7 +45,7 @@ public class IntergalacticConversionTests {
     }
 
     @Test
-    void addingPairsTest() throws DuplicatedConversionValueException, DuplicatedConversionKeyException, IllegalRomanNumeralException {
+    void addingPairsTest() throws Exception {
         conversion.addEntry("entry1", "X");
         conversion.addEntry("entry2", "I");
 
@@ -96,6 +97,10 @@ public class IntergalacticConversionTests {
 
         assertThrows(IllegalKeyFormatException.class, () -> {
             conversion.addEntry("   key  ", "X");
+        });
+
+        assertThrows(IllegalKeyFormatException.class, () -> {
+            conversion.addEntry(null, "X");
         });
     }
 }
