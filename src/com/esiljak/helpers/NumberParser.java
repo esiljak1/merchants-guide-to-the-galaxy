@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public class Parser {
+public class NumberParser {
     private static final String ILLEGAL_OCCURRENCES = "Illegal number of occurrences of a single character";
     private static final String ILLEGAL_SEQUENCE = "Illegal sequence of characters";
     private static final String ILLEGAL_CHARACTER = "Illegal character in a sequence";

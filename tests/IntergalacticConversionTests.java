@@ -105,14 +105,14 @@ public class IntergalacticConversionTests {
     }
 
     @Test
-    void basicParseEntryTest(){
+    void basicParseEntryTest() throws Exception{
         conversion.addEntry("blob is I");
 
         assertEquals("I", conversion.getEntries().get("blob"), "Entry not parsed correctly");
     }
 
     @Test
-    void additionalParseEntryTest(){
+    void additionalParseEntryTest() throws Exception{
         conversion.addEntry("blob is I");
         conversion.addEntry("rod is V");
         conversion.addEntry("lak is X");
@@ -155,14 +155,6 @@ public class IntergalacticConversionTests {
 
         assertThrows(IllegalKeyFormatException.class, () -> {
             conversion.addEntry("   is I");
-        });
-
-        assertThrows(IllegalKeyFormatException.class, () -> {
-            conversion.addEntry(" key is I");
-        });
-
-        assertThrows(IllegalKeyFormatException.class, () -> {
-            conversion.addEntry("key  is I");
         });
     }
 }

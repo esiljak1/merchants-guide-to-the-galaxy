@@ -4,10 +4,12 @@ import com.esiljak.exceptions.DuplicatedConversionKeyException;
 import com.esiljak.exceptions.DuplicatedConversionValueException;
 import com.esiljak.exceptions.IllegalKeyFormatException;
 import com.esiljak.exceptions.IllegalRomanNumeralException;
-import com.esiljak.helpers.Parser;
+import com.esiljak.helpers.NumberParser;
+import com.esiljak.helpers.StringParser;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class IntergalacticConversion {
@@ -22,7 +24,7 @@ public class IntergalacticConversion {
         if (entries != null && entries.containsValue(value))
             throw new DuplicatedConversionValueException(DUPLICATED_VALUE);
 
-        Parser.checkValidDigit(value);
+        NumberParser.checkValidDigit(value);
     }
 
     private void validateKeyFormat(String key) throws IllegalKeyFormatException {
@@ -58,6 +60,16 @@ public class IntergalacticConversion {
     public void addEntry(String key, String value) throws DuplicatedConversionValueException, DuplicatedConversionKeyException, IllegalRomanNumeralException, IllegalKeyFormatException {
         validateNewEntry(key, value);
         validateKeyFormat(key);
+        entries.put(key, value);
+    }
+
+    public void addEntry(String sentence) throws IllegalKeyFormatException, DuplicatedConversionValueException, DuplicatedConversionKeyException, IllegalRomanNumeralException {
+        List<String> keyValueList = StringParser.getKeyValuePair(sentence);
+        String key = keyValueList.get(0), value = keyValueList.get(1);
+
+        validateKeyFormat(key);
+        validateNewEntry(key, value);
+
         entries.put(key, value);
     }
 }
