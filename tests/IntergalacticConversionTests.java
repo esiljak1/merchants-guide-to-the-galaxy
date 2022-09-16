@@ -2,6 +2,7 @@ import com.esiljak.exceptions.DuplicatedConversionKeyException;
 import com.esiljak.exceptions.DuplicatedConversionValueException;
 import com.esiljak.exceptions.IllegalRomanNumeralException;
 import com.esiljak.models.IntergalacticConversion;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Map;
@@ -16,24 +17,27 @@ public class IntergalacticConversionTests {
             { "name2", "V" },
             { "name3", "X" }
     }).collect(Collectors.toMap((item) -> item[0], (item) -> item[1]));
+    private IntergalacticConversion conversion;
+
+    @BeforeEach
+    void initialize(){
+        conversion = new IntergalacticConversion();
+    }
 
     @Test
     void constructorTest(){
-        IntergalacticConversion conversion = new IntergalacticConversion();
-
         assertTrue(conversion.getEntries().isEmpty(), "If no value is passed in constructor there should be no entries");
     }
 
     @Test
     void constructorWithParameterTest(){
-        IntergalacticConversion conversion = new IntergalacticConversion(map);
+        conversion = new IntergalacticConversion(map);
 
         assertEquals(3, conversion.getEntries().size(), "Entries not properly set through constructor");
     }
 
     @Test
     void setterTest(){
-        IntergalacticConversion conversion = new IntergalacticConversion();
         conversion.setEntries(map);
 
         assertEquals("I", conversion.getEntries().get("name1"), "Entries not properly set through setter");
@@ -41,7 +45,6 @@ public class IntergalacticConversionTests {
 
     @Test
     void addingPairsTest() throws DuplicatedConversionValueException, DuplicatedConversionKeyException, IllegalRomanNumeralException {
-        IntergalacticConversion conversion = new IntergalacticConversion();
         conversion.addEntry("entry1", "X");
         conversion.addEntry("entry2", "I");
 
@@ -52,13 +55,11 @@ public class IntergalacticConversionTests {
     @Test
     void duplicatingKeysTest(){
         assertThrows(DuplicatedConversionKeyException.class, () -> {
-            IntergalacticConversion conversion = new IntergalacticConversion();
             conversion.addEntry("entry1", "X");
             conversion.addEntry("entry1", "I");
         }, "Cannot have multiple entries with the same key");
 
         assertThrows(DuplicatedConversionValueException.class, () -> {
-            IntergalacticConversion conversion = new IntergalacticConversion();
             conversion.addEntry("entry1", "X");
             conversion.addEntry("entry2", "X");
         }, "Cannot have multiple entries with the same value");
@@ -67,17 +68,14 @@ public class IntergalacticConversionTests {
     @Test
     void invalidValueTest(){
         assertThrows(IllegalRomanNumeralException.class, () -> {
-           IntergalacticConversion conversion = new IntergalacticConversion();
            conversion.addEntry("entry", "T");
         });
 
         assertThrows(IllegalRomanNumeralException.class, () -> {
-            IntergalacticConversion conversion = new IntergalacticConversion();
             conversion.addEntry("entry", "i");
         });
 
         assertThrows(IllegalRomanNumeralException.class, () -> {
-            IntergalacticConversion conversion = new IntergalacticConversion();
             conversion.addEntry("entry", "XX");
         });
     }
