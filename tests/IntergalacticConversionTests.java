@@ -20,6 +20,12 @@ public class IntergalacticConversionTests {
     }).collect(Collectors.toMap((item) -> item[0], (item) -> item[1]));
     private IntergalacticConversion conversion;
 
+    private void addConversionEntries() throws Exception{
+        conversion.addEntry("clob is I");
+        conversion.addEntry("blob is V");
+        conversion.addEntry("slob is X");
+    }
+
     @BeforeEach
     void initialize(){
         conversion = new IntergalacticConversion();
@@ -155,6 +161,80 @@ public class IntergalacticConversionTests {
 
         assertThrows(IllegalKeyFormatException.class, () -> {
             conversion.addEntry("   is I");
+        });
+    }
+
+    @Test
+    void addSellingItemTest() throws Exception{
+        addConversionEntries();
+        conversion.addSellingItem("clob clob Iron is 50 Credits");
+        assertEquals(25f, conversion.getSellingItem("Iron").getPrice());
+    }
+
+    @Test
+    void additionalSellingItemTest() throws Exception{
+        addConversionEntries();
+        conversion.addSellingItem("clob blob Gold is 80 Credits");
+        conversion.addSellingItem("blob clob clob clob Dirt is 1600 Credits");
+        conversion.addSellingItem("slob Silver is 10 Credits");
+
+        assertEquals(20f, conversion.getSellingItem("Gold").getPrice());
+        assertEquals(200f, conversion.getSellingItem("Iron").getPrice());
+        assertEquals(1f, conversion.getSellingItem("Silver").getPrice());
+    }
+
+    @Test
+    void invalidQuantityTest() throws Exception {
+        addConversionEntries();
+
+        assertThrows(IllegalSellingItemFormatException.class, () -> {
+           conversion.addSellingItem("blob slob Silver is 90 Credits");
+        });
+
+        assertThrows(IllegalSellingItemFormatException.class, () -> {
+            conversion.addSellingItem("blob blob Silver is 90 Credits");
+        });
+
+        assertThrows(IllegalSellingItemFormatException.class, () -> {
+            conversion.addSellingItem("clob clob clob clob Silver is 90 Credits");
+        });
+
+        assertThrows(IllegalSellingItemFormatException.class, () -> {
+            conversion.addSellingItem("unknown Silver is 90 Credits");
+        });
+    }
+
+    @Test
+    void invalidSellingItemTest() throws Exception {
+        addConversionEntries();
+
+        assertThrows(IllegalSellingItemFormatException.class, () -> {
+            conversion.addSellingItem("blob clob clob is 90 Credits");
+        });
+
+        assertThrows(IllegalSellingItemFormatException.class, () -> {
+            conversion.addSellingItem("Silver is 90 Credits");
+        });
+
+        assertThrows(IllegalSellingItemFormatException.class, () -> {
+            conversion.addSellingItem("   Silver is 90 Credits");
+        });
+
+        assertThrows(IllegalSellingItemFormatException.class, () -> {
+            conversion.addSellingItem("blob is 90 Credits");
+        });
+    }
+
+    @Test
+    void invalidSellingItemFormatTest() throws Exception {
+        addConversionEntries();
+
+        assertThrows(IllegalSellingItemFormatException.class, () -> {
+            conversion.addSellingItem("blob slob Silver is -90 Credits");
+        });
+
+        assertThrows(IllegalSellingItemFormatException.class, () -> {
+            conversion.addSellingItem("blob slob Silver is 90");
         });
     }
 }
