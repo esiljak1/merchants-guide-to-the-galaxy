@@ -79,4 +79,23 @@ public class IntergalacticConversionTests {
             conversion.addEntry("entry", "XX");
         });
     }
+
+    @Test
+    void invalidKeyFormatTest(){
+        assertThrows(IllegalKeyFormatException.class, () -> {
+           conversion.addEntry("illegal key", "X");
+        });
+
+        assertThrows(IllegalKeyFormatException.class, () -> {
+            conversion.addEntry("", "X");
+        });
+
+        assertThrows(IllegalKeyFormatException.class, () -> {
+            conversion.addEntry("   ", "X");
+        });
+
+        assertThrows(IllegalKeyFormatException.class, () -> {
+            conversion.addEntry("   key  ", "X");
+        });
+    }
 }
