@@ -103,4 +103,66 @@ public class IntergalacticConversionTests {
             conversion.addEntry(null, "X");
         });
     }
+
+    @Test
+    void basicParseEntryTest(){
+        conversion.addEntry("blob is I");
+
+        assertEquals("I", conversion.getEntries().get("blob"), "Entry not parsed correctly");
+    }
+
+    @Test
+    void additionalParseEntryTest(){
+        conversion.addEntry("blob is I");
+        conversion.addEntry("rod is V");
+        conversion.addEntry("lak is X");
+
+        assertEquals(3, conversion.getEntries().size(), "Entries not added");
+        assertEquals("V", conversion.getEntries().get("rod"), "Entry not added correctly");
+        assertEquals("X", conversion.getEntries().get("lak"), "Entry not added correctly");
+    }
+
+    @Test
+    void parseEntryExceptionTest(){
+        assertThrows(DuplicatedConversionKeyException.class, () -> {
+            conversion.addEntry("blob is I");
+            conversion.addEntry("blob is V");
+        }, "Cannot have multiple entries with the same key");
+
+        assertThrows(DuplicatedConversionValueException.class, () -> {
+            conversion.addEntry("flob is I");
+            conversion.addEntry("clob is V");
+        }, "Cannot have multiple entries with the same value");
+
+        assertThrows(IllegalRomanNumeralException.class, () -> {
+            conversion.addEntry("clob is i");
+        });
+
+        assertThrows(IllegalRomanNumeralException.class, () -> {
+            conversion.addEntry("clob is T");
+        });
+    }
+
+    @Test
+    void illegalKeyFormatTest(){
+        assertThrows(IllegalKeyFormatException.class, () -> {
+            conversion.addEntry("clob k is I");
+        });
+
+        assertThrows(IllegalKeyFormatException.class, () -> {
+            conversion.addEntry("is I");
+        });
+
+        assertThrows(IllegalKeyFormatException.class, () -> {
+            conversion.addEntry("   is I");
+        });
+
+        assertThrows(IllegalKeyFormatException.class, () -> {
+            conversion.addEntry(" key is I");
+        });
+
+        assertThrows(IllegalKeyFormatException.class, () -> {
+            conversion.addEntry("key  is I");
+        });
+    }
 }
