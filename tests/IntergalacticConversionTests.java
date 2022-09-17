@@ -23,6 +23,14 @@ public class IntergalacticConversionTests {
         conversion.addEntry("slob is X");
     }
 
+    private void addEntriesWithSellingItems() throws Exception{
+        addConversionEntries();
+        conversion.addSellingItem("clob clob Silver is 70 Credits");
+        conversion.addSellingItem("slob Rock is 1590 Credits");
+        conversion.addSellingItem("blob clob Platinum is 1200 Credits");
+        conversion.addSellingItem("blob Dirt is 500 Credits");
+    }
+
     @BeforeEach
     void initialize(){
         conversion = new IntergalacticConversion();
@@ -232,6 +240,67 @@ public class IntergalacticConversionTests {
 
         assertThrows(IllegalSellingItemFormatException.class, () -> {
             conversion.addSellingItem("blob Silver is 90");
+        });
+    }
+
+    @Test
+    void basicQueryTest() throws Exception {
+        addConversionEntries();
+
+        assertEquals("blob clob is 6", conversion.query("how much is blob clob"));
+        assertEquals("clob slob is 9", conversion.query("how much is clob slob"));
+    }
+
+    @Test
+    void itemPriceQueryTest() throws Exception {
+        addEntriesWithSellingItems();
+
+        assertEquals("slob is 10", conversion.query("how much is slob"));
+        assertEquals("slob Platinum is 2000 Credits", conversion.query("how many Credits is slob Platinum"));
+
+        assertEquals("clob clob Rock is 218 Credits", conversion.query("how many Credits is clob clob Rock"));
+        assertEquals("clob slob Silver is 310 Credits", conversion.query("how many Credits is clob slob Silver"));
+    }
+
+    @Test
+    void invalidQueryTest() throws Exception {
+        addEntriesWithSellingItems();
+
+        assertThrows(IllegalQueryException.class, () -> {
+           conversion.query("how much is glob");
+        });
+
+        assertThrows(IllegalQueryException.class, () -> {
+           conversion.query("how many credits is clob glob Silver");
+        });
+
+        assertThrows(IllegalQueryException.class, () -> {
+            conversion.query("how many credits is slob Gold");
+        });
+
+        assertThrows(IllegalQueryException.class, () -> {
+            conversion.query("how much is clob Silver");
+        });
+    }
+
+    @Test
+    void invalidQueryFormatTest() throws Exception {
+        addEntriesWithSellingItems();
+
+        assertThrows(IllegalQueryException.class, () -> {
+           conversion.query("how much money is too much money");
+        });
+
+        assertThrows(IllegalQueryException.class, () -> {
+            conversion.query("how many is clob blob");
+        });
+
+        assertThrows(IllegalQueryException.class, () -> {
+            conversion.query("how many is blob Silver");
+        });
+
+        assertThrows(IllegalQueryException.class, () -> {
+            conversion.query("how much wood could a woodchuck chuck if a woodchuck could chuck wood");
         });
     }
 }
