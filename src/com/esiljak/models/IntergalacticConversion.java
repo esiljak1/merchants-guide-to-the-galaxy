@@ -111,7 +111,17 @@ public class IntergalacticConversion {
         sellingItems.add(new SellingItem(itemName, price, numeral.getValue()));
     }
 
-    public String query(String query){
-        return "";
+    public String query(String query) throws IllegalQueryException {
+        String answer;
+        try {
+            answer = new QuantityQuery(this).queryAnswer(query);
+        } catch (Exception e){
+            try {
+                answer = new PriceQuery(this).queryAnswer(query);
+            } catch (Exception ignored) {
+                throw new IllegalQueryException("Invalid query format");
+            }
+        }
+        return answer;
     }
 }

@@ -256,10 +256,10 @@ public class IntergalacticConversionTests {
         addEntriesWithSellingItems();
 
         assertEquals("slob is 10", conversion.query("how much is slob"));
-        assertEquals("slob Platinum is 2000 Credits", conversion.query("how many Credits is slob Platinum"));
+        assertEquals("slob Platinum is 2000.00 Credits", conversion.query("how many Credits is slob Platinum"));
 
-        assertEquals("clob clob Rock is 218 Credits", conversion.query("how many Credits is clob clob Rock"));
-        assertEquals("clob slob Silver is 310 Credits", conversion.query("how many Credits is clob slob Silver"));
+        assertEquals("clob clob Rock is 318.00 Credits", conversion.query("how many Credits is clob clob Rock"));
+        assertEquals("clob slob Silver is 315.00 Credits", conversion.query("how many Credits is clob slob Silver"));
     }
 
     @Test
