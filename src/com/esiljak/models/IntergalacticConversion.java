@@ -105,4 +105,8 @@ public class IntergalacticConversion {
 
         sellingItems.add(new SellingItem(itemName, price, numeral.getValue()));
     }
+
+    public String query(String query){
+        return "";
+    }
 }
