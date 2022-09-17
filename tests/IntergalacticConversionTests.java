@@ -176,7 +176,7 @@ public class IntergalacticConversionTests {
         conversion.addSellingItem("slob Silver is 10 Credits");
 
         assertEquals(20f, conversion.getSellingItem("Gold").getPrice());
-        assertEquals(200f, conversion.getSellingItem("Iron").getPrice());
+        assertEquals(200f, conversion.getSellingItem("Dirt").getPrice());
         assertEquals(1f, conversion.getSellingItem("Silver").getPrice());
     }
 
@@ -184,15 +184,15 @@ public class IntergalacticConversionTests {
     void invalidQuantityTest() throws Exception {
         addConversionEntries();
 
-        assertThrows(IllegalSellingItemFormatException.class, () -> {
+        assertThrows(IllegalRomanNumeralException.class, () -> {
            conversion.addSellingItem("blob slob Silver is 90 Credits");
         });
 
-        assertThrows(IllegalSellingItemFormatException.class, () -> {
+        assertThrows(IllegalRomanNumeralException.class, () -> {
             conversion.addSellingItem("blob blob Silver is 90 Credits");
         });
 
-        assertThrows(IllegalSellingItemFormatException.class, () -> {
+        assertThrows(IllegalRomanNumeralException.class, () -> {
             conversion.addSellingItem("clob clob clob clob Silver is 90 Credits");
         });
 
@@ -226,12 +226,12 @@ public class IntergalacticConversionTests {
     void invalidSellingItemFormatTest() throws Exception {
         addConversionEntries();
 
-        assertThrows(IllegalSellingItemFormatException.class, () -> {
-            conversion.addSellingItem("blob slob Silver is -90 Credits");
+        assertThrows(IllegalPriceException.class, () -> {
+            conversion.addSellingItem("blob Silver is -90 Credits");
         });
 
         assertThrows(IllegalSellingItemFormatException.class, () -> {
-            conversion.addSellingItem("blob slob Silver is 90");
+            conversion.addSellingItem("blob Silver is 90");
         });
     }
 }

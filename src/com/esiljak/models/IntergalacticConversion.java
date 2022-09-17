@@ -1,9 +1,6 @@
 package com.esiljak.models;
 
-import com.esiljak.exceptions.DuplicatedConversionKeyException;
-import com.esiljak.exceptions.DuplicatedConversionValueException;
-import com.esiljak.exceptions.IllegalKeyFormatException;
-import com.esiljak.exceptions.IllegalRomanNumeralException;
+import com.esiljak.exceptions.*;
 import com.esiljak.helpers.NumberParser;
 import com.esiljak.helpers.StringParser;
 
@@ -13,6 +10,9 @@ public class IntergalacticConversion {
     private static final String DUPLICATED_KEY = "Cannot have multiple entries of the same key";
     private static final String DUPLICATED_VALUE = "Cannot have multiple entries of the same value";
     private static final String ILLEGAL_FORMAT = "Illegal key format detected";
+    private static final String NAME_REPEAT = "Item with that name already exists";
+    private static final String NO_ITEM_NAME = "No item name provided";
+    private static final String UNKNOWN_QUANTITY = "Unknown quantity detected";
     private Map<String, String> entries;
     private List<SellingItem> sellingItems = new ArrayList<>();
 
@@ -35,6 +35,23 @@ public class IntergalacticConversion {
             validateNewEntry(entry.getKey(), entry.getValue());
             validateKeyFormat(entry.getKey());
         }
+    }
+
+    private String extractRomanNumber(List<String> quantityWithItemList) throws IllegalSellingItemFormatException {
+        StringBuilder result = new StringBuilder();
+        String itemName = quantityWithItemList.get(quantityWithItemList.size() - 1).trim();
+        if (entries.containsKey(itemName))
+            throw new IllegalSellingItemFormatException(NO_ITEM_NAME);
+
+        for(int i = 0; i < quantityWithItemList.size() - 1; i++){
+            String numberCode = quantityWithItemList.get(i).trim();
+            if (!entries.containsKey(numberCode))
+                throw new IllegalSellingItemFormatException(UNKNOWN_QUANTITY + ": " + numberCode);
+
+            result.append(entries.get(numberCode));
+        }
+
+        return result.toString();
     }
 
     public IntergalacticConversion() {
@@ -76,7 +93,16 @@ public class IntergalacticConversion {
         return list.size() == 0 ? null : list.get(0);
     }
 
-    public void addSellingItem(String sentence){
+    public void addSellingItem(String sentence) throws IllegalSellingItemFormatException, IllegalRomanNumeralException, IllegalItemNameException, IllegalQuantityException, IllegalPriceException {
+        List<String> quantityWithItemList = StringParser.getQuantityWithItem(sentence);
+        String romanNumber = extractRomanNumber(quantityWithItemList);
+        String itemName = quantityWithItemList.get(quantityWithItemList.size() - 1).trim();
+        RomanNumeral numeral = new RomanNumeral(romanNumber);
 
+        float price = StringParser.getItemPrice(sentence);
+        if (getSellingItem(itemName) != null)
+            throw new IllegalSellingItemFormatException(NAME_REPEAT);
+
+        sellingItems.add(new SellingItem(itemName, price, numeral.getValue()));
     }
 }
