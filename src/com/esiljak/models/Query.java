@@ -7,5 +7,9 @@ public abstract class Query {
         this.conversion = conversion;
     }
 
+    public IntergalacticConversion getConversion() {
+        return conversion;
+    }
+
     public abstract String queryAnswer(String query);
 }
