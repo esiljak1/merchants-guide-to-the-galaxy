@@ -63,8 +63,8 @@ public class QueryTests {
             query.queryAnswer("how many Credits is slob Dirt");
         });
 
-        assertEquals("clob clob Calcium is 3000 Credits", query.queryAnswer("how many credits is clob clob Calcium"));
-        assertEquals("slob blob Rock is 165 Credits", query.queryAnswer("how many credits is slob blob Rock"));
+        assertEquals("clob clob Calcium is 3000.00 Credits", query.queryAnswer("how many credits is clob clob Calcium"));
+        assertEquals("slob blob Rock is 165.00 Credits", query.queryAnswer("how many credits is slob blob Rock"));
     }
 
     @Test

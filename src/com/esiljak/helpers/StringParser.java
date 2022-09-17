@@ -49,9 +49,20 @@ public class StringParser {
             throw new IllegalQueryException("Quantity query has to start with \"how much is \"");
     }
 
+    private static void checkValidityOfPriceQuery(String query) throws IllegalQueryException {
+        if (!query.toLowerCase().startsWith("how many credits is "))
+            throw new IllegalQueryException("Price query has to start with \"how many credits is \"");
+    }
+
     private static void checkValidityOfQueryArray(String[] array) throws IllegalQueryException {
         if (array.length != 2 || array[1].split(" ").length == 0)
             throw new IllegalQueryException("Illegal query passed");
+    }
+
+    private static List<String> getQueryItems(String query) throws IllegalQueryException {
+        String[] stringArray = query.split(" is ");
+        checkValidityOfQueryArray(stringArray);
+        return List.of(stringArray[1].split(" "));
     }
 
     public static List<String> getKeyValuePair(String sentence) throws IllegalKeyFormatException {
@@ -82,8 +93,11 @@ public class StringParser {
 
     public static List<String> getNumberCodeForQuantityQuery(String query) throws IllegalQueryException {
         checkValidityOfQuantityQuery(query);
-        String[] stringArray = query.split(" is ");
-        checkValidityOfQueryArray(stringArray);
-        return List.of(stringArray[1].split(" "));
+        return getQueryItems(query);
+    }
+
+    public static List<String> getQuantityWithItemForPriceQuery(String query) throws IllegalQueryException {
+        checkValidityOfPriceQuery(query);
+        return getQueryItems(query);
     }
 }
