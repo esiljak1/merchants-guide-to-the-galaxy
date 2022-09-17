@@ -7,16 +7,14 @@ import com.esiljak.exceptions.IllegalRomanNumeralException;
 import com.esiljak.helpers.NumberParser;
 import com.esiljak.helpers.StringParser;
 
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class IntergalacticConversion {
     private static final String DUPLICATED_KEY = "Cannot have multiple entries of the same key";
     private static final String DUPLICATED_VALUE = "Cannot have multiple entries of the same value";
     private static final String ILLEGAL_FORMAT = "Illegal key format detected";
     private Map<String, String> entries;
+    private List<SellingItem> sellingItems = new ArrayList<>();
 
     private void validateNewEntry(String key, String value) throws DuplicatedConversionKeyException, DuplicatedConversionValueException, IllegalRomanNumeralException {
         if (entries != null && entries.containsKey(key))
@@ -71,5 +69,14 @@ public class IntergalacticConversion {
         validateNewEntry(key, value);
 
         entries.put(key, value);
+    }
+
+    public SellingItem getSellingItem(String itemName){
+        var list = sellingItems.stream().filter(sellingItem -> sellingItem.getName().equals(itemName)).toList();
+        return list.size() == 0 ? null : list.get(0);
+    }
+
+    public void addSellingItem(String sentence){
+
     }
 }

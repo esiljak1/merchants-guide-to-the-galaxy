@@ -1,7 +1,4 @@
-import com.esiljak.exceptions.DuplicatedConversionKeyException;
-import com.esiljak.exceptions.DuplicatedConversionValueException;
-import com.esiljak.exceptions.IllegalKeyFormatException;
-import com.esiljak.exceptions.IllegalRomanNumeralException;
+import com.esiljak.exceptions.*;
 import com.esiljak.models.IntergalacticConversion;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
