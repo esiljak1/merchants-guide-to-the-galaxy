@@ -1,5 +1,7 @@
 import com.esiljak.exceptions.IllegalQueryException;
 import com.esiljak.models.IntergalacticConversion;
+import com.esiljak.models.PriceQuery;
+import com.esiljak.models.QuantityQuery;
 import com.esiljak.models.Query;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
