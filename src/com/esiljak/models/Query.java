@@ -1,5 +1,9 @@
 package com.esiljak.models;
 
+import com.esiljak.exceptions.IllegalQueryException;
+import com.esiljak.exceptions.IllegalRomanNumeralException;
+import com.esiljak.exceptions.IllegalSellingItemFormatException;
+
 public abstract class Query {
     private IntergalacticConversion conversion;
 
@@ -11,5 +15,5 @@ public abstract class Query {
         return conversion;
     }
 
-    public abstract String queryAnswer(String query);
+    public abstract String queryAnswer(String query) throws IllegalQueryException, IllegalSellingItemFormatException, IllegalRomanNumeralException;
 }

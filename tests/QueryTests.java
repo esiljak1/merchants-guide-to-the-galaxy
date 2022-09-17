@@ -1,4 +1,5 @@
 import com.esiljak.exceptions.IllegalQueryException;
+import com.esiljak.exceptions.IllegalSellingItemFormatException;
 import com.esiljak.models.IntergalacticConversion;
 import com.esiljak.models.PriceQuery;
 import com.esiljak.models.QuantityQuery;
@@ -43,7 +44,7 @@ public class QueryTests {
     }
 
     @Test
-    void quantityQuestionTest(){
+    void quantityQuestionTest() throws Exception{
         query = new QuantityQuery(conversion);
 
         assertDoesNotThrow(() -> {
@@ -55,7 +56,7 @@ public class QueryTests {
     }
 
     @Test
-    void priceQuestionTest(){
+    void priceQuestionTest() throws Exception{
         query = new PriceQuery(conversion);
 
         assertDoesNotThrow(() -> {
@@ -78,7 +79,7 @@ public class QueryTests {
             query.queryAnswer("how much is  ");
         });
 
-        assertThrows(IllegalQueryException.class, () -> {
+        assertThrows(IllegalSellingItemFormatException.class, () -> {
             query.queryAnswer("how much is cener");
         });
 

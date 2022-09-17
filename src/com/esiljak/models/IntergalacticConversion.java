@@ -37,14 +37,16 @@ public class IntergalacticConversion {
         }
     }
 
-    private String extractRomanNumber(List<String> quantityWithItemList) throws IllegalSellingItemFormatException {
-        StringBuilder result = new StringBuilder();
-        String itemName = quantityWithItemList.get(quantityWithItemList.size() - 1).trim();
+    private void validateItemName(String itemName) throws IllegalSellingItemFormatException {
         if (entries.containsKey(itemName))
             throw new IllegalSellingItemFormatException(NO_ITEM_NAME);
+    }
 
-        for(int i = 0; i < quantityWithItemList.size() - 1; i++){
-            String numberCode = quantityWithItemList.get(i).trim();
+    public String extractRomanNumber(List<String> quantityWithItemList) throws IllegalSellingItemFormatException {
+        StringBuilder result = new StringBuilder();
+
+        for (String s : quantityWithItemList) {
+            String numberCode = s.trim();
             if (!entries.containsKey(numberCode))
                 throw new IllegalSellingItemFormatException(UNKNOWN_QUANTITY + ": " + numberCode);
 
@@ -95,8 +97,11 @@ public class IntergalacticConversion {
 
     public void addSellingItem(String sentence) throws IllegalSellingItemFormatException, IllegalRomanNumeralException, IllegalItemNameException, IllegalQuantityException, IllegalPriceException {
         List<String> quantityWithItemList = StringParser.getQuantityWithItem(sentence);
-        String romanNumber = extractRomanNumber(quantityWithItemList);
+        String romanNumber = extractRomanNumber(quantityWithItemList.subList(0, quantityWithItemList.size() - 1));
+
         String itemName = quantityWithItemList.get(quantityWithItemList.size() - 1).trim();
+        validateItemName(itemName);
+
         RomanNumeral numeral = new RomanNumeral(romanNumber);
 
         float price = StringParser.getItemPrice(sentence);

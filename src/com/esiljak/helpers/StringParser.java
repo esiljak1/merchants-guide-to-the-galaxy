@@ -1,6 +1,7 @@
 package com.esiljak.helpers;
 
 import com.esiljak.exceptions.IllegalKeyFormatException;
+import com.esiljak.exceptions.IllegalQueryException;
 import com.esiljak.exceptions.IllegalSellingItemFormatException;
 
 import java.util.List;
@@ -43,8 +44,18 @@ public class StringParser {
         return price;
     }
 
+    private static void checkValidityOfQuantityQuery(String query) throws IllegalQueryException {
+        if (!query.toLowerCase().startsWith("how much is "))
+            throw new IllegalQueryException("Quantity query has to start with \"how much is \"");
+    }
+
+    private static void checkValidityOfQueryArray(String[] array) throws IllegalQueryException {
+        if (array.length != 2 || array[1].split(" ").length == 0)
+            throw new IllegalQueryException("Illegal query passed");
+    }
+
     public static List<String> getKeyValuePair(String sentence) throws IllegalKeyFormatException {
-        String[] stringArray = sentence.split("is");
+        String[] stringArray = sentence.split(" is ");
         checkValidityOfArray(stringArray);
         return List.of(stringArray[0].trim(), stringArray[1].trim());
     }
@@ -67,5 +78,12 @@ public class StringParser {
         checkValidityOfPriceSentence(priceWithCurrency);
 
         return parsePrice(priceWithCurrency[0].trim());
+    }
+
+    public static List<String> getNumberCodeForQuantityQuery(String query) throws IllegalQueryException {
+        checkValidityOfQuantityQuery(query);
+        String[] stringArray = query.split(" is ");
+        checkValidityOfQueryArray(stringArray);
+        return List.of(stringArray[1].split(" "));
     }
 }
