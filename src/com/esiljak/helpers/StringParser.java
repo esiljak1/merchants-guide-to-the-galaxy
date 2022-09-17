@@ -33,6 +33,16 @@ public class StringParser {
             throw new IllegalSellingItemFormatException("Illegal or no price found in sentence");
     }
 
+    private static float parsePrice(String priceString) throws IllegalSellingItemFormatException {
+        float price = 0;
+        try {
+            price = (float) Double.parseDouble(priceString);
+        }catch (NumberFormatException e){
+            throw new IllegalSellingItemFormatException("Illegal price found in sentence");
+        }
+        return price;
+    }
+
     public static List<String> getKeyValuePair(String sentence) throws IllegalKeyFormatException {
         String[] stringArray = sentence.split("is");
         checkValidityOfArray(stringArray);
@@ -56,6 +66,6 @@ public class StringParser {
         String[] priceWithCurrency = stringArray[1].split(" ");
         checkValidityOfPriceSentence(priceWithCurrency);
 
-        return (float) Double.parseDouble(priceWithCurrency[0].trim());
+        return parsePrice(priceWithCurrency[0].trim());
     }
 }
