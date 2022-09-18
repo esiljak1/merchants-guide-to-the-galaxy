@@ -13,6 +13,7 @@ public class IntergalacticConversionService {
     private static final String NAME_REPEAT = "Item with that name already exists";
     private static final String NO_ITEM_NAME = "No item name provided";
     private static final String UNKNOWN_QUANTITY = "Unknown quantity detected";
+    private static final String NULL_MAP = "Passed map cannot be null";
     private final IntergalacticConversion conversion;
 
     public IntergalacticConversionService(IntergalacticConversion conversion) {
@@ -35,7 +36,7 @@ public class IntergalacticConversionService {
 
     public void validateEntriesMap(Map<String, String> map) throws DuplicatedConversionValueException, DuplicatedConversionKeyException, IllegalRomanNumeralException, IllegalKeyFormatException {
         if (map == null)
-            throw new IllegalKeyFormatException("");
+            throw new IllegalKeyFormatException(NULL_MAP);
         for(Map.Entry<String, String> entry : map.entrySet()){
             validateNewEntry(entry.getKey(), entry.getValue());
             validateKeyFormat(entry.getKey());

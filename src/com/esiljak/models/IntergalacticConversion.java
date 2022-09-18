@@ -17,7 +17,6 @@ public class IntergalacticConversion {
         for (String s : quantityWithItemList) {
             String numberCode = s.trim();
             service.validateNumberCodeExists(numberCode);
-
             result.append(entries.get(numberCode));
         }
 
@@ -81,12 +80,13 @@ public class IntergalacticConversion {
         String answer;
         try {
             answer = new QuantityQuery(this).queryAnswer(query);
-        } catch (Exception e){
-            try {
-                answer = new PriceQuery(this).queryAnswer(query);
-            } catch (Exception ignored) {
-                throw new IllegalQueryException("Invalid query format");
-            }
+            return answer;
+        } catch (Exception ignored){}
+
+        try {
+            answer = new PriceQuery(this).queryAnswer(query);
+        } catch (Exception ignored) {
+            throw new IllegalQueryException("Invalid query format");
         }
         return answer;
     }
