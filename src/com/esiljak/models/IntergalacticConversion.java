@@ -2,7 +2,7 @@ package com.esiljak.models;
 
 import com.esiljak.exceptions.*;
 import com.esiljak.helpers.StringParser;
-import services.IntergalacticConversionService;
+import com.esiljak.services.IntergalacticConversionService;
 
 import java.util.*;
 

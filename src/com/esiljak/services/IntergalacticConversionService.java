@@ -1,4 +1,4 @@
-package services;
+package com.esiljak.services;
 
 import com.esiljak.exceptions.*;
 import com.esiljak.helpers.NumberParser;
