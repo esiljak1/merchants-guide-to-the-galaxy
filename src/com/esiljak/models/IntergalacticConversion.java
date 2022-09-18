@@ -11,18 +11,6 @@ public class IntergalacticConversion {
     private Map<String, String> entries;
     private final List<SellingItem> sellingItems = new ArrayList<>();
 
-    public String extractRomanNumber(List<String> quantityWithItemList) throws IllegalSellingItemFormatException {
-        StringBuilder result = new StringBuilder();
-
-        for (String s : quantityWithItemList) {
-            String numberCode = s.trim();
-            service.validateNumberCodeExists(numberCode);
-            result.append(entries.get(numberCode));
-        }
-
-        return result.toString();
-    }
-
     public IntergalacticConversion() {
         entries = new HashMap<>();
     }
@@ -39,6 +27,19 @@ public class IntergalacticConversion {
     public void setEntries(Map<String, String> entries) throws DuplicatedConversionValueException, IllegalKeyFormatException, DuplicatedConversionKeyException, IllegalRomanNumeralException {
         service.validateEntriesMap(entries);
         this.entries = entries;
+    }
+
+    public String extractRomanNumber(List<String> quantityList) throws IllegalSellingItemFormatException {
+        service.checkQuantityList(quantityList);
+        StringBuilder result = new StringBuilder();
+
+        for (String s : quantityList) {
+            String numberCode = s.trim();
+            service.validateNumberCodeExists(numberCode);
+            result.append(entries.get(numberCode));
+        }
+
+        return result.toString();
     }
 
     public void addEntry(String key, String value) throws DuplicatedConversionValueException, DuplicatedConversionKeyException, IllegalRomanNumeralException, IllegalKeyFormatException {

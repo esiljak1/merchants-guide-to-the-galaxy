@@ -281,6 +281,10 @@ public class IntergalacticConversionTests {
         assertThrows(IllegalQueryException.class, () -> {
             conversion.query("how much is clob Silver");
         });
+
+        assertThrows(IllegalQueryException.class, () -> {
+            conversion.query("how many Credits is Silver");
+        });
     }
 
     @Test

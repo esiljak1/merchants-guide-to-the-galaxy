@@ -4,6 +4,7 @@ import com.esiljak.exceptions.*;
 import com.esiljak.helpers.NumberParser;
 import com.esiljak.models.IntergalacticConversion;
 
+import java.util.List;
 import java.util.Map;
 
 public class IntergalacticConversionService {
@@ -14,6 +15,7 @@ public class IntergalacticConversionService {
     private static final String NO_ITEM_NAME = "No item name provided";
     private static final String UNKNOWN_QUANTITY = "Unknown quantity detected";
     private static final String NULL_MAP = "Passed map cannot be null";
+    private static final String EMPTY_LIST = "No number codes passed";
     private final IntergalacticConversion conversion;
 
     public IntergalacticConversionService(IntergalacticConversion conversion) {
@@ -56,5 +58,10 @@ public class IntergalacticConversionService {
     public void validateNumberCodeExists(String numberCode) throws IllegalSellingItemFormatException {
         if (!conversion.getEntries().containsKey(numberCode))
             throw new IllegalSellingItemFormatException(UNKNOWN_QUANTITY + ": " + numberCode);
+    }
+
+    public void checkQuantityList(List<String> quantityList) throws IllegalSellingItemFormatException {
+        if (quantityList.isEmpty())
+            throw new IllegalSellingItemFormatException(EMPTY_LIST);
     }
 }

@@ -108,7 +108,7 @@ public class QueryTests {
             query.queryAnswer("how many is blob Silver");
         });
 
-        assertThrows(IllegalQueryException.class, () -> {
+        assertThrows(IllegalSellingItemFormatException.class, () -> {
             query.queryAnswer("how many Credits is clob");
         });
 
