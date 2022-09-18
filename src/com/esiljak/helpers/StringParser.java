@@ -59,8 +59,13 @@ public class StringParser {
             throw new IllegalQueryException("Illegal query passed");
     }
 
+    private static String removeQuestionMark(String sentence){
+        return sentence.replaceAll("\\?", "");
+    }
+
     private static List<String> getQueryItems(String query) throws IllegalQueryException {
-        String[] stringArray = query.split(" is ");
+        String formattedQuery = removeQuestionMark(query);
+        String[] stringArray = formattedQuery.split(" is ");
         checkValidityOfQueryArray(stringArray);
         return List.of(stringArray[1].split(" "));
     }
